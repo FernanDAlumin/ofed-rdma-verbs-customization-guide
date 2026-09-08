@@ -35,10 +35,10 @@ unchanged request to the saved native callback and preserve its return value
 and `bad_wr` result. The diagram separates one-time context setup from the
 runtime call path; see the [worked design in section 2.8](docs/02-design-an-ops-overlay.md#28-worked-design-observe-and-delegate).
 
-![RDMA verbs customization example: install a context-scoped observation callback, count calls and WRs, and delegate to the native provider (Chinese labels)](docs/figures/customization-observe-example.zh-CN.png)
+![RDMA verbs customization example: install a context-scoped observation callback, count calls and WRs, and delegate to the native provider](docs/figures/customization-observe-example.en.png)
 
-[Editable Excalidraw source](docs/figures/customization-observe-example.zh-CN.excalidraw) ·
-[SVG version](docs/figures/customization-observe-example.zh-CN.svg)
+[Editable Excalidraw source](docs/figures/customization-observe-example.en.excalidraw) ·
+[SVG version](docs/figures/customization-observe-example.en.svg)
 
 ## Scope and provenance
 

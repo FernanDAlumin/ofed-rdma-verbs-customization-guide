@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1080" viewBox="0 0 1600 1080" role="img" aria-labelledby="title desc">
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<title id="title">Customize RDMA Verbs: Observe Send Calls</title>
+<desc id="desc">Save the effective native callback and install a context-scoped overlay. At runtime, count calls and observed WRs, then delegate unchanged requests to the native provider. Preserve the native return value and bad_wr result.</desc>
+<rect width="1600" height="1080" fill="white"/>
+<g fill="#24324B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="42" font-weight="400">
+<text x="64" y="84" text-anchor="start">Customize RDMA Verbs: Observe Send Calls</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="22" font-weight="400">
+<text x="66" y="123" text-anchor="start">Usage example  /  Add per-context counters, then delegate to the native provider</text>
+</g>
+<rect x="64" y="158" width="1472" height="174" rx="12" fill="#F7F9FC" stroke="#BCCADC" stroke-width="1"/>
+<g fill="#24324B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="23" font-weight="400">
+<text x="88" y="202" text-anchor="start">01   SETUP · Once during context creation</text>
+</g>
+<rect x="92" y="229" width="414" height="78" rx="12" fill="#FFFFFF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="22" font-weight="400">
+<text x="299" y="264" text-anchor="middle">Complete native initialization</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="299" y="294" text-anchor="middle">Base ops + hardware variant</text>
+</g>
+<rect x="591" y="229" width="414" height="78" rx="12" fill="#FFFFFF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="22" font-weight="400">
+<text x="798" y="264" text-anchor="middle">Save the effective native callback</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="798" y="294" text-anchor="middle">native_post_send ← effective callback</text>
+</g>
+<rect x="1090" y="229" width="418" height="78" rx="12" fill="#EAF7F7" stroke="#167D8D" stroke-width="2"/>
+<g fill="#167D8D" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="22" font-weight="400">
+<text x="1299" y="264" text-anchor="middle">Install the custom callback</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="1299" y="294" text-anchor="middle">ops.post_send ← observe_post_send</text>
+</g>
+<polyline points="514,268 583,268" fill="none" stroke="#64748B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="571.2941876694152,273.654551943446 583,268 571.2941876694152,262.345448056554" fill="none" stroke="#64748B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1013,268 1082,268" fill="none" stroke="#64748B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1070.2941876694151,273.654551943446 1082,268 1070.2941876694151,262.345448056554" fill="none" stroke="#64748B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#24324B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="25" font-weight="400">
+<text x="66" y="391" text-anchor="start">02   RUNTIME · One classic post_send call</text>
+</g>
+<rect x="490" y="420" width="1046" height="464" rx="12" fill="#F7F9FC" stroke="#BCCADC" stroke-width="1.5" stroke-dasharray="8 7"/>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="517" y="455" text-anchor="start">USERSPACE PROVIDER   /   ONE CONTEXT</text>
+</g>
+<rect x="64" y="552" width="280" height="138" rx="12" fill="#EDF4FF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="26" font-weight="400">
+<text x="204" y="598" text-anchor="middle">RDMA application</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="21" font-weight="400">
+<text x="204" y="630" text-anchor="middle">Native QP + WR list</text>
+</g>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="204" y="671" text-anchor="middle">ibv_post_send(...)</text>
+</g>
+<rect x="520" y="552" width="252" height="138" rx="12" fill="#EDF4FF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="24" font-weight="400">
+<text x="646" y="596" text-anchor="middle">Context ops</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="21" font-weight="400">
+<text x="646" y="630" text-anchor="middle">post_send</text>
+</g>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="646" y="671" text-anchor="middle">→ custom callback</text>
+</g>
+<rect x="850" y="536" width="298" height="170" rx="12" fill="#EAF7F7" stroke="#167D8D" stroke-width="2"/>
+<g fill="#167D8D" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="26" font-weight="400">
+<text x="999" y="582" text-anchor="middle">Custom observer</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="20" font-weight="400">
+<text x="999" y="613" text-anchor="middle">observe_post_send</text>
+</g>
+<g fill="#167D8D" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="21" font-weight="400">
+<text x="999" y="654" text-anchor="middle">Atomic counters</text>
+<text x="999" y="680.25" text-anchor="middle">Forward unchanged WRs</text>
+</g>
+<rect x="1208" y="552" width="280" height="138" rx="12" fill="#EDF4FF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="25" font-weight="400">
+<text x="1348" y="597" text-anchor="middle">Native send callback</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="20" font-weight="400">
+<text x="1348" y="629" text-anchor="middle">native_post_send</text>
+</g>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="1348" y="670" text-anchor="middle">Saved effective provider entry</text>
+</g>
+<polyline points="352,622 512,622" fill="none" stroke="#24324B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="500.2941876694152,627.654551943446 512,622 500.2941876694152,616.345448056554" fill="none" stroke="#24324B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="432.5" y="605" text-anchor="middle">header-inline</text>
+</g>
+<polyline points="780,622 842,622" fill="none" stroke="#167D8D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="830.2941876694152,627.654551943446 842,622 830.2941876694152,616.345448056554" fill="none" stroke="#167D8D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1156,622 1200,622" fill="none" stroke="#167D8D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1188.2941876694151,627.654551943446 1200,622 1188.2941876694151,616.345448056554" fill="none" stroke="#167D8D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1348,544 1348,500 204,500 204,544" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 7"/>
+<polyline points="198.345448056554,532.2941876694152 204,544 209.654551943446,532.2941876694152" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="19" font-weight="400">
+<text x="69" y="481" text-anchor="start">Propagate rc / bad_wr unchanged</text>
+</g>
+<rect x="850" y="764" width="298" height="97" rx="12" fill="#FFF4DF" stroke="#C67C26" stroke-width="2"/>
+<g fill="#C67C26" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="21" font-weight="400">
+<text x="999" y="805" text-anchor="middle">Per-context counters</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="999" y="838" text-anchor="middle">Calls +1     Observed WRs +N</text>
+</g>
+<polyline points="999,714 999,756" fill="none" stroke="#C67C26" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="993.345448056554,744.2941876694152 999,756 1004.654551943446,744.2941876694152" fill="none" stroke="#C67C26" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#C67C26" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="1014" y="740" text-anchor="start">Update counters</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="19" font-weight="400">
+<text x="521" y="793" text-anchor="start">Count this call and its WRs,</text>
+<text x="521" y="816.75" text-anchor="start">then invoke the saved callback.</text>
+</g>
+<rect x="1208" y="930" width="280" height="89" rx="12" fill="#EDF4FF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="25" font-weight="400">
+<text x="1348" y="975" text-anchor="middle">RDMA NIC</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="1348" y="1005" text-anchor="middle">Executes work asynchronously</text>
+</g>
+<polyline points="1348,698 1348,922" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1342.345448056554,910.2941876694152 1348,922 1353.654551943446,910.2941876694152" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="1370" y="807" text-anchor="start">Post WQEs</text>
+<text x="1370" y="829.5" text-anchor="start">Notify NIC</text>
+</g>
+<g fill="#24324B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="20" font-weight="400">
+<text x="66" y="958" text-anchor="start">LEGEND</text>
+</g>
+<polyline points="67,990 118,990" fill="none" stroke="#24324B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="106.2941876694152,995.654551943446 118,990 106.2941876694152,984.345448056554" fill="none" stroke="#24324B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="131" y="995" text-anchor="start">Call / delegate</text>
+</g>
+<polyline points="300,990 351,990" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 7"/>
+<polyline points="339.2941876694152,995.654551943446 351,990 339.2941876694152,984.345448056554" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="364" y="995" text-anchor="start">Return result</text>
+</g>
+<polyline points="556,990 607,990" fill="none" stroke="#C67C26" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="595.2941876694152,995.654551943446 607,990 595.2941876694152,984.345448056554" fill="none" stroke="#C67C26" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="620" y="995" text-anchor="start">Per-context observations</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="66" y="1053" text-anchor="start">N is the number of WRs observed in this call. Completion is reported through the CQ; the completion path is omitted.</text>
+</g>
+</svg>
