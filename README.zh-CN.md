@@ -26,6 +26,17 @@
 自定义对象表示的完整对象族，以及允许原生/自定义对象共存的注册表混合模式。三者的
 安全条件不同，不能混为一谈。
 
+## 使用示例：观察并委托
+
+为 classic `post_send` 增加 context 内的调用次数和 WR 数量统计，再把未修改的请求
+委托给已保存的原生回调，并保留其返回值和 `bad_wr` 结果。下图分别展示 context
+初始化时的设置和运行时调用流程；完整说明见[第 2.8 节](docs/zh-CN/02-design-an-ops-overlay.md#28-完整示例观察并委托)。
+
+![RDMA Verbs 定制化使用示例：安装 context 级观测回调，统计调用与 WR 数量，再委托原生 provider 执行](docs/figures/customization-observe-example.zh-CN.png)
+
+[可编辑 Excalidraw 源文件](docs/figures/customization-observe-example.zh-CN.excalidraw) ·
+[SVG 矢量图](docs/figures/customization-observe-example.zh-CN.svg)
+
 ## 项目边界
 
 这是独立撰写的工程教程，不是 provider fork、可安装补丁或论文复现 artifact。

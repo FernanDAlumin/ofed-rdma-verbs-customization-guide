@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1080" viewBox="0 0 1600 1080" role="img" aria-labelledby="title desc">
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<title id="title">定制 RDMA Verbs：发送调用观测</title>
+<desc id="desc">先保存原生回调并安装 context 级 overlay；运行时由定制回调更新调用与 WR 计数，再以未修改的请求调用原生 provider。原生返回值沿调用链传回应用。</desc>
+<rect width="1600" height="1080" fill="white"/>
+<g fill="#24324B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="42" font-weight="400">
+<text x="64" y="84" text-anchor="start">定制 RDMA Verbs：发送调用观测</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="22" font-weight="400">
+<text x="66" y="123" text-anchor="start">使用示例  /  在一个 context 中增加调用统计，再委托原生 provider 执行</text>
+</g>
+<rect x="64" y="158" width="1472" height="174" rx="12" fill="#F7F9FC" stroke="#BCCADC" stroke-width="1"/>
+<g fill="#24324B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="23" font-weight="400">
+<text x="88" y="202" text-anchor="start">01   初始化 · 创建 context 时执行一次</text>
+</g>
+<rect x="92" y="229" width="414" height="78" rx="12" fill="#FFFFFF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="22" font-weight="400">
+<text x="299" y="264" text-anchor="middle">完成原生初始化</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="299" y="294" text-anchor="middle">基础 ops + 硬件变体</text>
+</g>
+<rect x="591" y="229" width="414" height="78" rx="12" fill="#FFFFFF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="22" font-weight="400">
+<text x="798" y="264" text-anchor="middle">保存有效原生回调</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="798" y="294" text-anchor="middle">native_post_send ← effective callback</text>
+</g>
+<rect x="1090" y="229" width="418" height="78" rx="12" fill="#EAF7F7" stroke="#167D8D" stroke-width="2"/>
+<g fill="#167D8D" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="22" font-weight="400">
+<text x="1299" y="264" text-anchor="middle">安装定制化回调</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="1299" y="294" text-anchor="middle">ops.post_send ← observe_post_send</text>
+</g>
+<polyline points="514,268 583,268" fill="none" stroke="#64748B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="571.2941876694152,273.654551943446 583,268 571.2941876694152,262.345448056554" fill="none" stroke="#64748B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1013,268 1082,268" fill="none" stroke="#64748B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1070.2941876694151,273.654551943446 1082,268 1070.2941876694151,262.345448056554" fill="none" stroke="#64748B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#24324B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="25" font-weight="400">
+<text x="66" y="391" text-anchor="start">02   运行时 · 一次 classic post_send 调用</text>
+</g>
+<rect x="490" y="420" width="1046" height="464" rx="12" fill="#F7F9FC" stroke="#BCCADC" stroke-width="1.5" stroke-dasharray="8 7"/>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="517" y="455" text-anchor="start">USERSPACE PROVIDER   /   单个 context</text>
+</g>
+<rect x="64" y="552" width="280" height="138" rx="12" fill="#EDF4FF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="26" font-weight="400">
+<text x="204" y="598" text-anchor="middle">RDMA 应用</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="21" font-weight="400">
+<text x="204" y="630" text-anchor="middle">原生 QP + WR 列表</text>
+</g>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="204" y="671" text-anchor="middle">ibv_post_send(...)</text>
+</g>
+<rect x="520" y="552" width="252" height="138" rx="12" fill="#EDF4FF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="24" font-weight="400">
+<text x="646" y="596" text-anchor="middle">Context 的 ops</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="21" font-weight="400">
+<text x="646" y="630" text-anchor="middle">post_send</text>
+</g>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="646" y="671" text-anchor="middle">→ 定制回调</text>
+</g>
+<rect x="850" y="536" width="298" height="170" rx="12" fill="#EAF7F7" stroke="#167D8D" stroke-width="2"/>
+<g fill="#167D8D" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="26" font-weight="400">
+<text x="999" y="582" text-anchor="middle">定制统计回调</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="20" font-weight="400">
+<text x="999" y="613" text-anchor="middle">observe_post_send</text>
+</g>
+<g fill="#167D8D" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="21" font-weight="400">
+<text x="999" y="654" text-anchor="middle">原子计数</text>
+<text x="999" y="680.25" text-anchor="middle">请求原样传递</text>
+</g>
+<rect x="1208" y="552" width="280" height="138" rx="12" fill="#EDF4FF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="25" font-weight="400">
+<text x="1348" y="597" text-anchor="middle">原生发送回调</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="20" font-weight="400">
+<text x="1348" y="629" text-anchor="middle">native_post_send</text>
+</g>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="1348" y="670" text-anchor="middle">已保存的有效 provider 入口</text>
+</g>
+<polyline points="352,622 512,622" fill="none" stroke="#24324B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="500.2941876694152,627.654551943446 512,622 500.2941876694152,616.345448056554" fill="none" stroke="#24324B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="432.5" y="605" text-anchor="middle">header-inline</text>
+</g>
+<polyline points="780,622 842,622" fill="none" stroke="#167D8D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="830.2941876694152,627.654551943446 842,622 830.2941876694152,616.345448056554" fill="none" stroke="#167D8D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1156,622 1200,622" fill="none" stroke="#167D8D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1188.2941876694151,627.654551943446 1200,622 1188.2941876694151,616.345448056554" fill="none" stroke="#167D8D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1348,544 1348,500 204,500 204,544" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 7"/>
+<polyline points="198.345448056554,532.2941876694152 204,544 209.654551943446,532.2941876694152" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="19" font-weight="400">
+<text x="69" y="481" text-anchor="start">沿调用链原样返回 rc / bad_wr</text>
+</g>
+<rect x="850" y="764" width="298" height="97" rx="12" fill="#FFF4DF" stroke="#C67C26" stroke-width="2"/>
+<g fill="#C67C26" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="21" font-weight="400">
+<text x="999" y="805" text-anchor="middle">当前 context 的统计</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="999" y="838" text-anchor="middle">调用次数 +1     WR 数量 +N</text>
+</g>
+<polyline points="999,714 999,756" fill="none" stroke="#C67C26" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="993.345448056554,744.2941876694152 999,756 1004.654551943446,744.2941876694152" fill="none" stroke="#C67C26" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#C67C26" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="17" font-weight="400">
+<text x="1014" y="740" text-anchor="start">更新统计</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="19" font-weight="400">
+<text x="521" y="793" text-anchor="start">每次调用先更新统计，</text>
+<text x="521" y="816.75" text-anchor="start">再调用保存的原生入口。</text>
+</g>
+<rect x="1208" y="930" width="280" height="89" rx="12" fill="#EDF4FF" stroke="#3B6BB0" stroke-width="2"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="25" font-weight="400">
+<text x="1348" y="975" text-anchor="middle">RDMA NIC</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="1348" y="1005" text-anchor="middle">异步执行已提交工作</text>
+</g>
+<polyline points="1348,698 1348,922" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1342.345448056554,910.2941876694152 1348,922 1353.654551943446,910.2941876694152" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#3B6BB0" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="1370" y="807" text-anchor="start">提交 WQE</text>
+<text x="1370" y="829.5" text-anchor="start">通知 NIC</text>
+</g>
+<g fill="#24324B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="20" font-weight="400">
+<text x="66" y="958" text-anchor="start">图示约定</text>
+</g>
+<polyline points="67,990 118,990" fill="none" stroke="#24324B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="106.2941876694152,995.654551943446 118,990 106.2941876694152,984.345448056554" fill="none" stroke="#24324B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="131" y="995" text-anchor="start">调用 / 委托</text>
+</g>
+<polyline points="300,990 351,990" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 7"/>
+<polyline points="339.2941876694152,995.654551943446 351,990 339.2941876694152,984.345448056554" fill="none" stroke="#3B6BB0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="364" y="995" text-anchor="start">返回结果</text>
+</g>
+<polyline points="556,990 607,990" fill="none" stroke="#C67C26" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="595.2941876694152,995.654551943446 607,990 595.2941876694152,984.345448056554" fill="none" stroke="#C67C26" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="620" y="995" text-anchor="start">context 内的观测数据</text>
+</g>
+<g fill="#64748B" font-family="Helvetica, Arial, PingFang SC, sans-serif" font-size="18" font-weight="400">
+<text x="66" y="1053" text-anchor="start">N 为本次调用观察到的 WR 数量。操作完成通过 CQ 报告，图中省略完成路径。</text>
+</g>
+</svg>

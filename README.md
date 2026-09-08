@@ -28,6 +28,18 @@ families use custom representations; and an advanced registry-backed context in
 which native and custom objects coexist. Their safety arguments are different
 and must not be mixed.
 
+## Example: observe and delegate
+
+Add per-context call and WR counters to classic `post_send`, then pass the
+unchanged request to the saved native callback and preserve its return value
+and `bad_wr` result. The diagram separates one-time context setup from the
+runtime call path; see the [worked design in section 2.8](docs/02-design-an-ops-overlay.md#28-worked-design-observe-and-delegate).
+
+![RDMA verbs customization example: install a context-scoped observation callback, count calls and WRs, and delegate to the native provider (Chinese labels)](docs/figures/customization-observe-example.zh-CN.png)
+
+[Editable Excalidraw source](docs/figures/customization-observe-example.zh-CN.excalidraw) ·
+[SVG version](docs/figures/customization-observe-example.zh-CN.svg)
+
 ## Scope and provenance
 
 This is an independently written educational guide, not a provider fork,
